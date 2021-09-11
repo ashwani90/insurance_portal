@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+    <div class="container">
+        <h3>Edit Policy</h3>
+        {% if errorMessage != '0'%}
+        <div class="alert alert-warning alert-dismissible fade show">
+    <strong>Warning! </strong>{{errorMessage}}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
+        {% endif %}
+        <form class="form" method="post" action="{% url 'edit_action' %}">
+            {% csrf_token %}
+  <div class="form-group">
+    <input type="hidden" class="form-control" placeholder="Policy Id" name="policy_id" value={{ listing.policy_id }}>
+  </div>
+  <div class="form-group">
+      <label>Customer Id</label>
+    <input type="number" class="form-control" placeholder="Customer Id" name="customer_id"  value={{ listing.customer_id }}>
+  </div>
+            <div class="form-group">
+                <label>Premium amount</label>
+    <input type="number" class="form-control" placeholder="Customer Id" name="premium_amount"  value={{ listing.premium_amount }}>
+  </div>
+            <div class="form-group">
+                <label>Fuel</label>
+    <input type="text" class="form-control" placeholder="Fuel" name="fuel" value={{ listing.fuel }}>
+  </div>
+  <div class="form-group">
+      <label>Vehicle Segment</label>
+    <input type="text" class="form-control" placeholder="Vehicle Segment" name="vehicle_segment" value={{ listing.vehicle_segment }}>
+  </div>
+            <div class="form-group">
+                 {% if listing.bodily_injury_liability %}
+                <input type="checkbox" class="form-input" checked="checked" name="bodily_injury_liability" />
+                {% else %}
+                <input type="checkbox" class="form-input"  name="bodily_injury_liability" />
+                {% endif %}
+                <label>Bodily Injury Liability</label>
+  </div>
+  <div class="form-group">
+      {% if listing.personal_injury_protection %}
+                <input type="checkbox" class="form-input" checked="checked" name="personal_injury_protection" />
+                {% else %}
+                <input type="checkbox" class="form-input"  name="personal_injury_protection" />
+                {% endif %}
+          <label>Personal Injury Protection</label>
+  </div>
+            <div class="form-group">
+                {% if listing.property_damage_liability %}
+                <input type="checkbox" class="form-input" checked="checked" name="property_damage_liability" />
+                {% else %}
+                <input type="checkbox" class="form-input"  name="property_damage_liability" />
+                {% endif %}
+                <label>Property Damage Liability</label>
+  </div>
+            <div class="form-group">
+                {% if listing.collision %}
+                <input type="checkbox" class="form-input" checked="checked" name="collision" />
+                {% else %}
+                <input type="checkbox" class="form-input"  name="collision" />
+                {% endif %}
+                <label>Collision</label>
+  </div>
+            <div class="form-group">
+                {% if listing.comprehensive %}
+                <input type="checkbox" class="form-input" checked="checked" name="comprehensive" />
+                {% else %}
+                <input type="checkbox" class="form-input"  name="comprehensive" />
+                {% endif %}
+                <label>Comprehensive</label>
+  </div>
+
+  <div class="form-group">
+      <label>Customer Gender</label>
+      <div class="form-check">
+          {% if listing.customer_gender == False %}
+                <input class="form-check-input" type="radio" checked name="customer_gender" id="flexRadioDefault1" value="0">
+                {% else %}
+                <input class="form-check-input" type="radio" name="customer_gender" id="flexRadioDefault1" value="0">
+                {% endif %}
+  <label class="form-check-label" for="flexRadioDefault1">
+    Male
+  </label>
+</div>
+<div class="form-check">
+    {% if listing.customer_gender == True %}
+                <input class="form-check-input" type="radio" checked name="customer_gender" id="flexRadioDefault2" value="1">
+                {% else %}
+                <input class="form-check-input" type="radio" name="customer_gender" id="flexRadioDefault2" value="1">
+                {% endif %}
+  <label class="form-check-label" for="flexRadioDefault2">
+    Female
+  </label>
+</div>
+  </div>
+            <div class="form-group">
+                <label>Income Group</label>
+    <input type="text" class="form-control" placeholder="Income Group" name="income_group" value={{ listing.income_group }}>
+  </div>
+  <div class="form-group">
+      <label>Customer Region</label>
+    <input type="text" class="form-control" placeholder="Customer Region" name="customer_region" value={{ listing.customer_region }}>
+  </div>
+            <div class="form-group">
+                {% if listings.maritial_status %}
+                <input type="checkbox" class="form-input" checked="checked" name="maritial_status" />
+                {% else %}
+                <input type="checkbox" class="form-input"  name="maritial_status" />
+                {% endif %}
+                <label>Married</label>
+  </div>
+  <input type="submit" class="btn btn-primary mb-2"></input>
+</form>
+    </div>
+
+{% endblock %}

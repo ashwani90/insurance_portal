@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+
+    <div>
+        <form class="form-inline" method="post" action=".">
+            {% csrf_token %}
+  <div class="form-group mb-2">
+    <input type="text" class="form-control" id="staticEmail2" placeholder="Policy Id" name="policy_id">
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <input type="text" class="form-control" id="inputPassword2" placeholder="Customer Id" name="customer_id">
+  </div>
+  <button type="submit" class="btn btn-primary mb-2">Search</button>
+</form>
+
+<table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th class="th-sm">Policy Id
+      </th>
+      <th class="th-sm">PurchasedDate
+      </th>
+      <th class="th-sm">Customer Id
+      </th>
+      <th class="th-sm">Fuel
+      </th>
+      <th class="th-sm">Vehicle Segment
+      </th>
+      <th class="th-sm">Premium
+      </th>
+      <th class="th-sm">Bodily Injury Liability
+      </th>
+      <th class="th-sm">Personal Injury
+      </th>
+      <th class="th-sm">Property Damage
+      </th>
+      <th class="th-sm">Collision
+      </th>
+      <th class="th-sm">Comprehensive
+      </th>
+      <th class="th-sm">Gender
+      </th>
+      <th class="th-sm">Income Group
+      </th>
+      <th class="th-sm">Customer Region
+      </th>
+      <th class="th-sm">Maritial Status
+      </th>
+        <th class="th-sm">Edit
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% if listings %}
+            {% for listing in listings%}
+      <tr>
+                <td>{{listing.policy_id}}</td>
+                <td>{{listing.purchase_date | naturalday}}</td>
+                <td>{{listing.customer_id}}</td>
+                <td>{{listing.fuel}}</td>
+                <td>{{listing.vehicle_segment}}</td>
+                <td>{{listing.premium_amount}}</td>
+                <td>{{listing.bodily_injury_liability}}</td>
+                <td>{{listing.personal_injury_protection}}</td>
+                <td>{{listing.property_damage_liability}}</td>
+                <td>{{listing.collision}}</td>
+                <td>{{listing.comprehensive}}</td>
+                <td>{{listing.customer_gender}}</td>
+                <td>{{listing.income_group}}</td>
+                <td>{{listing.customer_region}}</td>
+                <td>{{listing.maritial_status}}</td>
+                <td><a class="btn btn-primary mb-2" href="{% url 'edit_insurance' listing.policy_id 0 %}">Edit </a></td>
+    </tr>
+            {% endfor %}
+        {% else %}
+            <div class="col-md-12">
+              No Listing Available
+            </div>
+        {% endif %}
+
+    </tr>
+
+  </tbody>
+  <tfoot>
+    <tr>
+      <th class="th-sm">Policy Id
+      </th>
+      <th class="th-sm">PurchasedDate
+      </th>
+      <th class="th-sm">Customer Id
+      </th>
+      <th class="th-sm">Fuel
+      </th>
+      <th class="th-sm">Vehicle Segment
+      </th>
+      <th class="th-sm">Premium
+      </th>
+      <th class="th-sm">Bodily Injury Liability
+      </th>
+      <th class="th-sm">Personal Injury
+      </th>
+      <th class="th-sm">Property Damage
+      </th>
+      <th class="th-sm">Collision
+      </th>
+      <th class="th-sm">Comprehensive
+      </th>
+      <th class="th-sm">Gender
+      </th>
+      <th class="th-sm">Income Group
+      </th>
+      <th class="th-sm">Customer Region
+      </th>
+      <th class="th-sm">Maritial Status
+      </th>
+        <th class="th-sm">Edit
+      </th>
+    </tr>
+  </tfoot>
+</table>
+<div class="container" style="display:flex; justify-content:center;">
+    <div class="row">
+        <div class="col-md-12">
+          {% if listings.has_other_pages %}
+          <ul class="pagination">
+            {% if listings.has_previous %}
+              <li class="page-item">
+              <a href="?page={{listings.previous_page_number}}" class="page-link">&laquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+              <a class="page-link">&laquo;</a>
+            </li>
+            {% endif %}
+              {% for i in listings.paginator.page_range %}
+    {% if listings.number == i %}
+        <li class="page-item active">
+              <a class="page-link" href="?page={{i}}">{{i}}</a>
+            </li>
+    {% elif i > listings.number|add:'-5' and i < listings.number|add:'5' %}
+        <li class="page-item">
+              <a class="page-link" href="?page={{i}}">{{i}}</a>
+            </li>
+    {% endif %}
+{% endfor %}
+            {% if listings.has_next %}
+              <li class="page-item">
+              <a class="page-link" href="?page={{listings.next_page_number}}">&raquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+              <a class="page-link" >&raquo;</a>
+            </li>
+            {% endif %}
+
+          </ul>
+          {% endif %}
+        </div>
+      </div>
+</div>
+
+{% endblock %}

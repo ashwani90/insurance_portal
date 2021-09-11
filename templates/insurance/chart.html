@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<canvas id="chart"></canvas>
+
+    <script>
+    var a = "{{xData}}";
+    var b = "{{yData}}";
+    var aArray = a.split(",");
+    var bArray = b.split(",");
+        let ctx = document.getElementById("chart").getContext("2d");
+let chart = new Chart(ctx, {
+  type: "bar",
+  data: {
+   labels: aArray,
+   datasets: [
+    {
+      label: "Policy Count in Months ($)",
+      backgroundColor: "#79AEC8",
+      borderColor: "#417690",
+      data: bArray
+    }
+   ]
+  },
+  options: {
+   title: {
+    text: "Policy Count",
+    display: true
+   }
+  }
+});
+    </script>
+{% endblock %}
